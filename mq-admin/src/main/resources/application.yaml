@@ -1,0 +1,24 @@
+#server
+server:
+  port: 8080
+
+#netty
+remote:
+  host: http://localhost
+  port: 7080
+
+#registry
+registry:
+  beat-time: 10
+
+#mybatis
+mybatis:
+  mapper-locations: classPpath:/mapper/*.xml
+
+#MySql
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mq?Unicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver

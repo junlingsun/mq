@@ -1,0 +1,8 @@
+#server
+server:
+  port: 8081
+
+#rpc
+mq:
+  admin:
+    address: http://localhost:8080

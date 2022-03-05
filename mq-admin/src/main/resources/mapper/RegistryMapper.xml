@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.junling.mq.admin.dao.RegistryDao" >
+
+	<resultMap id="registryData" type="com.junling.mq.admin.registry.RegistryData" >
+		<result column="id" property="id" />
+		<result column="key" property="registryKey" />
+		<result column="value" property="registryVal" />
+		<result column="updateTime" property="updateTime" />
+	</resultMap>
+
+	<update id="update">
+		UPDATE registry_data SET `updateTime` = NOW()
+		WHERE `key` = #{registryData.registryKey} AND `value` = #{registryData.registryVal}
+	</update>
+
+	<insert id="save">
+		INSERT INTO registry_data (`key`, `value`, `updateTime`)
+		VALUES (#{registryData.registryKey}, #{registryData.registryVal}, NOW())
+	</insert>
+
+	<select id="findAll" resultMap="registryData">
+		SELECT * FROM registry_data
+		WHERE `key` = #{registryKey}
+	</select>
+
+	<delete id="clean">
+		DELETE FROM registry_data
+		WHERE NOW() <![CDATA[>]]> DATE_ADD(updateTime, Interval #{timeout} SECOND);
+
+	</delete>
+
+
+
+</mapper>

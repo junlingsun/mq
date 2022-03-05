@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.junling.mq.admin.dao.RegistryGroupDao" >
+
+	<resultMap id="registry" type="com.junling.mq.admin.registry.RegistryGroup" >
+		<result column="id" property="id" />
+		<result column="key" property="registryKey" />
+		<result column="value" property="data" />
+	</resultMap>
+
+	<select id="find" resultMap="registry">
+		SELECT * FROM registry
+		WHERE `key` = #{registryKey}
+	</select>
+
+	<insert id="save">
+		INSERT INTO registry (`key`, `value`)
+		VALUES (#{registryGroup.registryKey}, #{registryGroup.data})
+	</insert>
+
+	<update id="update">
+		UPDATE registry SET `value` = #{registryGroup.data}
+		WHERE `key` = #{registryGroup.key}
+	</update>
+
+	<delete id="cleanInactive">
+		DELETE FROM registry
+		WHERE `key` NOT IN (
+			SELECT DISTINCT `key` FROM registry_data
+		)
+	</delete>
+
+	<select id="pageList">
+		SELECT * FROM registry
+		LIMIT #{offset}, #{pageSize}
+	</select>
+
+</mapper>
